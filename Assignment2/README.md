@@ -1,4 +1,4 @@
-# Assignment2
+# Assignment2 - Game of Life
 
 **IMPORTANT: There is a weird bug with printing to a file. If you read in a file and then print the output to a file, it will do so, however there will be a seg fault at the end of execution. However, the outputted .txt file has correct output. If you randomly assign a board and then print to a file, after finishing the program, there is a long error message referring to an invalid pointer, but again, the output file is exactly how it should be. The program is behaving as it should and the output is correct, but printing in FileMode gives errors and I honestly can't figure out why.**
 
