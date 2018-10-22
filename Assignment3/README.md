@@ -1,4 +1,4 @@
-# Assignment3
+# Assignment3 - Syntax Checker
 
 1. Template implementation of the stack was based off of using templates from a 10 hr long YouTube video that I watched to learn C++: https://www.youtube.com/watch?v=mUQZ1qmKlLY
 2. The CommandLineChecker logic was from the first assignment. See that assignment for references on the basis of the logic
