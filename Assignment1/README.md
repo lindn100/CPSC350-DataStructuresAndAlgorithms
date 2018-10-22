@@ -1,4 +1,4 @@
-# Assignment1
+# Assignment1 - DNA with no arrays
 **IMPORTANT: The logic in my program requires a newline at the end of the file. Because of this, the program looks at the last char of the file to see if its a newline. If it's not, it appends one to the file. This was my workaround for my logic, but could alter the user's file in an unintended manner**
 
 References:
