@@ -1,5 +1,5 @@
-#ifndef NaiveList_H
-#define NaiveList_H
+#ifndef DoublyLinkedList_H
+#define DoublyLinkedList_H
 #include "ListNode.h"
 #include <iostream>
 using namespace std;
@@ -87,10 +87,20 @@ T DoublyLinkedList<T>::removeFront()
   --size;
   ListNode<T> *node = front;
   //check if empty
-  if(front == nullptr) //only node in list
+  if(getSize() == 0)
+  {
+    throw runtime_error("invalid remove"); //throw error if removing from empty list
+  }
+  if(getSize() == 1)
+  {
+    T data = node->data;
+    delete node;
+    return data;
+  }
+/*  if(front == nullptr) //only node in list
   {
     back = nullptr;
-  }
+  }*/
   else //more than 1 node in list
   {
     front->next->previous = nullptr;
@@ -201,7 +211,6 @@ T DoublyLinkedList<T>::deletePos(int pos)
   {
     back = prev;
   }
-  cout << "here" << endl;
   //found the position, lets proceed to delete
   prev->next = curr->next;
   if(curr->next == nullptr)

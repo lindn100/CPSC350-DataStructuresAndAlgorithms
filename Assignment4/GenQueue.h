@@ -10,9 +10,9 @@ public:
   GenQueue();
   GenQueue(int);
   ~GenQueue();
-  void insert(T data);
-  T remove();
-  T peek();
+  virtual void insert(T data);
+  virtual T remove();
+  virtual T peek();
 
   bool isFull();
   bool isEmpty();
@@ -30,7 +30,10 @@ private:
 template<typename T>
 GenQueue<T>::GenQueue()
 {
-  //stuff
+  front = 0;
+  rear = 0;
+  numElements = 0;
+  size = 0;
 }
 
 template<typename T>

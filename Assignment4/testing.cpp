@@ -1,12 +1,19 @@
 #include <iostream>
-#include "ListNode.h"
+#include <string>
 #include "DoublyLinkedList.h"
+#include "ListNode.h"
 #include "GenQueue.h"
+#include "LinkedQueue.h"
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-  //ListNode h(5);
+  /*LinkedQueue<int> myQ;
+  myQ.insert(1);
+  myQ.insert(2);
+
+
+  cout << myQ.remove() << endl;*/
   DoublyLinkedList<int> list;
   list.insertFront(10);
   list.insertFront(2);
@@ -30,5 +37,7 @@ int main(int argc, char* argv[])
   GenQueue<char> myQ(10);
   myQ.insert('d');
   cout << myQ.peek() << endl;
+
+
   return 0;
 }
