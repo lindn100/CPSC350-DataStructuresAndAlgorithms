@@ -1,6 +1,7 @@
 #include <iostream>
 #ifndef GenQueue_H
 #define GenQueue_H
+#include "DoublyLinkedList.h"
 using namespace std;
 
 template<typename T>
@@ -8,76 +9,51 @@ class GenQueue
 {
 public:
   GenQueue();
-  GenQueue(int);
   ~GenQueue();
-  virtual void insert(T data);
-  virtual T remove();
-  virtual T peek();
+  void insert(T data);
+  T remove();
+  T peek();
+  void printQueue();
 
-  bool isFull();
   bool isEmpty();
-  int getSize();
 
 private:
-  int front;
-  int rear;
   int numElements;
-  int size;
-  T *myQueue;
+  DoublyLinkedList<T> *myQueue;
 
 };
 
 template<typename T>
 GenQueue<T>::GenQueue()
 {
-  front = 0;
-  rear = 0;
   numElements = 0;
-  size = 0;
-}
-
-template<typename T>
-GenQueue<T>::GenQueue(int maxSize)
-{
-  myQueue = new T[maxSize];
-  size = maxSize;
-  front = 0;
-  rear = -1;
-  numElements = 0;
+  myQueue = new DoublyLinkedList<T>();
 }
 
 template<typename T>
 GenQueue<T>::~GenQueue()
 {
-  delete [] myQueue;
+  delete myQueue;
 }
 
 template<typename T>
 void GenQueue<T>::insert(T data)
 {
-  //check if full
-  if(!isFull() && rear == (size-1))
-  {
-    rear = -1;
-  }
-  myQueue[++rear] = data;
+  myQueue->insertBack(data);
   numElements++;
 }
 
 template<typename T>
 T GenQueue<T>::remove()
 {
-  T c;
-  c = myQueue[front];
-  front++;
   numElements--;
-  return c;
+  return myQueue->removeFront();
 }
 
 template<typename T>
 T GenQueue<T>::peek()
 {
-  return myQueue[front];
+  return myQueue->getFront();
 }
 
 template<typename T>
@@ -87,14 +63,8 @@ bool GenQueue<T>::isEmpty()
 }
 
 template<typename T>
-bool GenQueue<T>::isFull()
+void GenQueue<T>::printQueue()
 {
-  return numElements == size;
-}
-
-template<typename T>
-int GenQueue<T>::getSize()
-{
-  return size;
+  myQueue->printList();
 }
 #endif

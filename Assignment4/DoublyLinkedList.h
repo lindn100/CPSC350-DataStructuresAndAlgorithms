@@ -22,6 +22,7 @@ public:
   ListNode<T> *remove(T key);
   T deletePos(int pos);
   int find(T value);
+  T getFront();
 
   void printList();
   unsigned int getSize();
@@ -269,6 +270,12 @@ template<typename T>
 unsigned int DoublyLinkedList<T>::getSize()
 {
   return size;
+}
+
+template<typename T>
+T DoublyLinkedList<T>::getFront()
+{
+  return front->data;
 }
 
 #endif

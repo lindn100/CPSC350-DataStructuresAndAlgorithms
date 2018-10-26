@@ -3,41 +3,38 @@
 #include "DoublyLinkedList.h"
 #include "ListNode.h"
 #include "GenQueue.h"
-#include "LinkedQueue.h"
+#include "Student.h"
+#include "Window.h"
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-  /*LinkedQueue<int> myQ;
-  myQ.insert(1);
-  myQ.insert(2);
+  int x = 5;
+  Window myArr[5];
+  Student me(10);
+  for(int i = 0; i < x; ++i)
+  {
+    if(!myArr[i].isOccupied())
+    {
+      myArr[i].busy(me);
+    }
+  }
+  myArr[0].clockTick();
+  cout << myArr[0].getMeetingTime() << endl;
+/*  GenQueue<Student> myQ;
+  Student me(10);
 
+  myQ.insert(me);
+  Window lol;
+  lol.busy(me);
+  lol.clockTick();
+  cout << lol.getMeetingTime() << endl;
+  myQ.insert('o');
+  myQ.insert('g');
 
-  cout << myQ.remove() << endl;*/
-  DoublyLinkedList<int> list;
-  list.insertFront(10);
-  list.insertFront(2);
-  list.insertBack(6);
-  list.printList();
-  cout << "removing shit" << endl;
-  list.removeFront();
-  list.removeBack();
-  list.printList();
-  list.remove(10);
-  cout << "dead list" << endl;
-  list.printList();
-  list.insertFront(10);
-  list.insertFront(2);
-  list.insertBack(6);
-  list.insertBack(7);
-  list.deletePos(1);
-  list.printList();
-  cout << list.find(10) << endl;
+  myQ.printQueue();
 
-  GenQueue<char> myQ(10);
-  myQ.insert('d');
-  cout << myQ.peek() << endl;
-
-
+  myQ.remove();
+  myQ.printQueue();*/
   return 0;
 }
