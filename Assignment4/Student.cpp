@@ -39,3 +39,8 @@ double Student::getWaitTime()
 {
   return waitTime;
 }
+
+void Student::setWaitTime(double wait)
+{
+  waitTime = wait;
+}

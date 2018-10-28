@@ -30,11 +30,13 @@ bool Window::isOccupied()
 void Window::busy(Student s)
 {
   myStudent.setMeetingTime(s.getMeetingTime());
+  setIdleTime(0);
   occupied = true;
 }
 
 void Window::leave()
 {
+  setIdleTime(0);
   occupied = false;
 }
 

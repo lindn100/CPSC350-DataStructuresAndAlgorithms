@@ -23,6 +23,7 @@ public:
   T deletePos(int pos);
   int find(T value);
   T getFront();
+//  T findPos(int pos);
 
   void printList();
   unsigned int getSize();
@@ -85,7 +86,6 @@ void DoublyLinkedList<T>::insertBack(T d)
 template<typename T>
 T DoublyLinkedList<T>::removeFront()
 {
-  --size;
   ListNode<T> *node = front;
   //check if empty
   if(getSize() == 0)
@@ -96,6 +96,7 @@ T DoublyLinkedList<T>::removeFront()
   {
     T data = node->data;
     delete node;
+    --size;
     return data;
   }
 /*  if(front == nullptr) //only node in list
@@ -110,6 +111,7 @@ T DoublyLinkedList<T>::removeFront()
   node->next = nullptr;
   T data = node->data;
   delete node;
+  --size;
   return data;
 }
 
@@ -272,10 +274,24 @@ unsigned int DoublyLinkedList<T>::getSize()
   return size;
 }
 
+
 template<typename T>
 T DoublyLinkedList<T>::getFront()
 {
   return front->data;
 }
+
+/*template<typename T>
+T DoublyLinkedList<T>::findPos(int pos)
+{
+  int temp = 0;
+  ListNode<T> *curr = front;
+  while(temp != pos)
+  {
+    curr = curr->next;
+    temp++;
+  }
+  return curr;
+}*/
 
 #endif

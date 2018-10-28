@@ -14,6 +14,8 @@ public:
   T remove();
   T peek();
   void printQueue();
+  T searchQueue(int pos);
+  int getSize();
 
   bool isEmpty();
 
@@ -33,7 +35,7 @@ GenQueue<T>::GenQueue()
 template<typename T>
 GenQueue<T>::~GenQueue()
 {
-  delete myQueue;
+
 }
 
 template<typename T>
@@ -66,5 +68,17 @@ template<typename T>
 void GenQueue<T>::printQueue()
 {
   myQueue->printList();
+}
+
+/*template<typename T>
+T GenQueue<T>::searchQueue(int pos)
+{
+  myQueue->findPos(pos);
+}*/
+
+template<typename T>
+int GenQueue<T>::getSize()
+{
+  return numElements;
 }
 #endif
