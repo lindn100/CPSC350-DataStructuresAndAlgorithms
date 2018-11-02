@@ -6,11 +6,7 @@ class Window
 public:
   Window();
   Window(Student);
-  ~Window(); //for window c : windowArray
-             //if(!isOccupied)
-             //occupy, setIdleTime to 0, decrease student meetingTime by 1 each loop
-             //then loop through every window, if (!isOccupied), increment idleTime by 1
-             //for max, check for each window if idleTime > maxIdleTime in sim class
+  ~Window(); 
   bool isOccupied(); //returns value of occupied
   void busy(Student); //set occupied to yes
   void leave(); //set occupied to no

@@ -1,11 +1,12 @@
 #ifndef DoublyLinkedList_H
 #define DoublyLinkedList_H
 #include "ListNode.h"
+//#include "ListInterface.h"
 #include <iostream>
 using namespace std;
 
 template<typename T>
-class DoublyLinkedList
+class DoublyLinkedList// : public ListInterface
 {
 private:
   ListNode<T> *front;

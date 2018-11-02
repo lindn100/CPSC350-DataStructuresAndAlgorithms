@@ -48,35 +48,35 @@ void RegistrarOffice::startSim()
   readFile >> numOfWindows;
   Window myWindows[numOfWindows];
 
-  int currTime;
+  int currTime; //currTime is keeping track of the time given by the file
   readFile >> currTime;
 
-  int time = 0;
-  double totalWaitTime = 0;
-  double allWaitTimes[100];
+  int time = 0; //time will be the time in the simulation
+  double totalWaitTime = 0; //of all the students
+  double allWaitTimes[100]; //in an array for median
   double maxWaitTime = 0;
   int waitOverTenMins = 0;
-  double totalIdleTime = 0;
+  double totalIdleTime = 0; //of all windows
   double maxIdleTime = 0;
   int idleOverFiveMins = 0;
   int totalStudents = 0;
   int studentCount = 0;
-  bool simStarted = false;
+  bool simStarted = false; //this bool checks if the first student has arrived.
 
   while(true)
   {
-    if(time == currTime)
+    if(time == currTime) //if the time in the sim matches the time given by the file, then enter this loop
     {
       simStarted = true;
       int numOfStudents = 0;
       readFile >> numOfStudents;
       totalStudents += numOfStudents;
-      for(int i = 0; i < numOfStudents; ++i)
+      for(int i = 0; i < numOfStudents; ++i) //make a student for each num inputted by the file
       {
         double x;
         readFile >> x;
-        Student me(x);
-        waitLine.insert(me);
+        Student me(x); //x is the student's mtgTime
+        waitLine.insert(me); //insert the student into the waitLine
       }
       if(!readFile.eof()) //if not the end of the file, get the new current time
       {
@@ -86,10 +86,10 @@ void RegistrarOffice::startSim()
 
       for(int i = 0; i < numOfWindows; ++i) //go through each window
       {
-        if(myWindows[i].isOccupied())
+        if(myWindows[i].isOccupied()) //if there's a student at the window
         {
-          myWindows[i].clockTick();
-          if(myWindows[i].getMeetingTime() == 0)
+          myWindows[i].clockTick(); //clock tick sets the mtg time of the student in the window to 1 less
+          if(myWindows[i].getMeetingTime() == 0) //if the mtg ends, make the student leave and open the window
           {
             myWindows[i].leave(); //this checks if the meeting time has gotten to 0, if so, change occupied back to false. also sets idle time to 0
           }
@@ -112,7 +112,7 @@ void RegistrarOffice::startSim()
             }
 
             double currentWaitTime = waitLine.peek().getWaitTime();
-            allWaitTimes[studentCount] = currentWaitTime;
+            allWaitTimes[studentCount] = currentWaitTime; //add the wait time of the student being added to the window to the array of allWaitTimes to calculate median
             studentCount++;
             totalWaitTime += currentWaitTime; //add the student at the front's wait time to the total wait time
             if(currentWaitTime > maxWaitTime)
@@ -127,7 +127,7 @@ void RegistrarOffice::startSim()
           }
         }
 
-        if(!myWindows[i].isOccupied() && !simDone(myWindows, waitLine, numOfWindows))
+        if(!myWindows[i].isOccupied() && !simDone(myWindows, waitLine, numOfWindows)) //if the window is not occupied and the simulation isn't done
         {
           myWindows[i].incrementIdleTime();
           if(myWindows[i].getIdleTime() > maxIdleTime)
@@ -137,9 +137,6 @@ void RegistrarOffice::startSim()
           totalIdleTime++;
         }
       }
-    //increment wait time of each student in the line here
-    //looping through the queue by removing each wait time, incrementing it, and putting it back in
-
     if(simDone(myWindows, waitLine, numOfWindows) && simStarted) //checks if myWindows are empty and that the line is empty
     {
       for(int i = 0; i < numOfWindows; ++i)
@@ -153,7 +150,7 @@ void RegistrarOffice::startSim()
           maxIdleTime = myWindows[i].getIdleTime();
         }
       }
-      break;
+      break; //exit the main simulation loop
     }
     if(!simStarted) //if the no students have shwon up yet, all window wait times are bumpd up and included
     {
@@ -163,23 +160,22 @@ void RegistrarOffice::startSim()
       }
       totalIdleTime += numOfWindows;
     }
-    IncrementWaitTime(waitLine.getSize());
+    IncrementWaitTime(waitLine.getSize()); //this takes the queue of students, takes the students out, increments their wait times, and puts them back in, in their order
     ++time;
   }
-  cout << "num of students: " << studentCount << endl;
+//  cout << "num of students: " << studentCount << endl;
   cout << "Mean wait time for students: " << (double)totalWaitTime / totalStudents << endl;
   cout << "Median wait time for students: " << calcMedian(allWaitTimes, studentCount) << endl;
   cout << "Longest wait time for studnets: " << maxWaitTime << endl;
   cout << "Number of students that waited over 10 mins: " << waitOverTenMins << endl;
-  cout << "Total of all window's idle time: " << totalIdleTime << endl;
+  //cout << "Total of all window's idle time: " << totalIdleTime << endl;
   cout << "Mean of all window's idle time: " << (double)totalIdleTime / numOfWindows << endl;
   if(idleOverFiveMins > numOfWindows)
   {
     idleOverFiveMins = numOfWindows;
   }
-  cout << "Number of windows idle over 5 minutes: " << idleOverFiveMins << endl;
   cout << "Longest idle time of a window: " << maxIdleTime << endl;
-
+  cout << "Number of windows idle over 5 minutes: " << idleOverFiveMins << endl;
 }
 
 bool RegistrarOffice::simDone(Window myWindows[], GenQueue<Student> waitLine, int size)
