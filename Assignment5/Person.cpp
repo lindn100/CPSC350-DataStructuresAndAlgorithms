@@ -52,3 +52,18 @@ string Person::getLevel()
 {
   return this->level;
 }
+
+bool Person::operator==(const Person& s)
+{
+  return getID() == s.getID();
+}
+
+bool Person::operator<(const Person& s)
+{
+  return getID() < s.getID();
+}
+
+bool Person::operator>(const Person& s)
+{
+  return getID() > s.getID();
+}

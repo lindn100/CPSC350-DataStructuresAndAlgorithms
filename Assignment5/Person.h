@@ -16,7 +16,9 @@ public:
   string getName();
   void setLevel(string);
   string getLevel();
-  
+  bool operator==(const Person&); //REF: https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.3.0/com.ibm.zos.v2r3.cbclx01/cplr318.htm
+  bool operator<(const Person&);
+  bool operator>(const Person&);
 private:
   int ID;
   string name;

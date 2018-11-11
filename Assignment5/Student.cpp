@@ -58,18 +58,3 @@ int Student::getAdvisorID()
 {
   return advisorID;
 }
-
-bool Student::operator==(const Student& s)
-{
-  return getID() == s.getID();
-}
-
-bool Student::operator<(const Student& s)
-{
-  return getID() < s.getID();
-}
-
-bool Student::operator>(const Student& s)
-{
-  return getID() > s.getID();
-}
