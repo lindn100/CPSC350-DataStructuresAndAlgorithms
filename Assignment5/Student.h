@@ -19,6 +19,7 @@ public:
   int getAdvisorID();
   bool operator==(const Student&); //REF: https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.3.0/com.ibm.zos.v2r3.cbclx01/cplr318.htm
   bool operator<(const Student&);
+  bool operator>(const Student&);
 private:
   string major;
   double GPA;
