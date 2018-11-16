@@ -1,6 +1,5 @@
 #ifndef BST_H
 #define BST_H
-#include "TreeNode.h"
 
 #include <iostream>
 using namespace std;
@@ -12,17 +11,17 @@ public:
   BST();
   ~BST();
 
-  void insert(TreeNode<T> *node);
+  void insert(T node);
   bool contains(int value);
   bool deleteNode(int value);
   bool isEmpty();
 
   void printTree();
-  void recPrint(TreeNode<T> *node); //in order Traversal
-  TreeNode<T>* getSuccessor(TreeNode<T> *d);
-  void clearPointers(TreeNode<T> *d);
+  void recPrint(T *node); //in order Traversal
+  T* getSuccessor(T *d);
+  void clearPointers(T *d);
 private:
-  TreeNode<T> *root;
+  T *root;
 };
 
 template<typename T>
@@ -54,7 +53,7 @@ bool BST<T>::isEmpty()
 }
 
 template<typename T>
-void BST<T>::recPrint(TreeNode<T> *node) //inorder traversal
+void BST<T>::recPrint(T *node) //inorder traversal
 {
   if(node == nullptr)
   {
@@ -69,18 +68,18 @@ void BST<T>::recPrint(TreeNode<T> *node) //inorder traversal
 }
 
 template<typename T>
-void BST<T>::insert(TreeNode<T> *node)
+void BST<T>::insert(T node)
 {
-  int value = node->key;
+  int value = node.key;
   //check for duplicates ifcontains(value) break
   if(isEmpty())
   {
-    root = node;
+    root = &node;
   }
   else //not empty tree
   {
-    TreeNode<T> *current = root;
-    TreeNode<T> *parent;
+    T *current = root;
+    T *parent;
     while(true) //begin search for insertion point
     {
       parent = current;
@@ -89,7 +88,7 @@ void BST<T>::insert(TreeNode<T> *node)
         current = current->left;
         if(current==nullptr)
         {
-          parent->left = node;
+          parent->left = &node;
           break;
         }
       }
@@ -98,7 +97,7 @@ void BST<T>::insert(TreeNode<T> *node)
         current = current->right;
         if(current == nullptr)
         {
-          parent->right = node;
+          parent->right =  &node;
           break;
         }
       }
@@ -116,7 +115,7 @@ bool BST<T>::contains(int value)
   }
   else //not empty tree, continue to search
   {
-    TreeNode<T> *current = root;
+    T *current = root;
 
     while(current->key != value)
     {
@@ -146,14 +145,14 @@ bool BST<T>::deleteNode(int k)
   }
 
   //proceed to find the node
-  TreeNode<T> *current = root;
-  TreeNode<T> *parent = root;
+  T *current = root;
+  T *parent = root;
   bool isLeft = true;
 
   while(current->key != k)
   {
     parent = current;
-    if(k < current->left->key)
+    if(k < current->key)
     {
       isLeft = true;
       current = current->left;
@@ -175,7 +174,6 @@ bool BST<T>::deleteNode(int k)
   //current is now the node we needed to find
 
   //no child
-
   if(current->left == nullptr && current->right == nullptr)
   {
     if(current == root)
@@ -200,19 +198,16 @@ bool BST<T>::deleteNode(int k)
     {
       root = current->left;
       clearPointers(current);
-      delete current;
     }
     else if(isLeft)
     {
       parent->left = current->left;
       clearPointers(current);
-      delete current;
     }
     else //right child
     {
       parent->right = current->left;
       clearPointers(current);
-      delete current;
     }
   }
 
@@ -221,27 +216,23 @@ bool BST<T>::deleteNode(int k)
     if(current == root)
     {
       root = current->right;
-      clearPointers(current);
-      delete current;
+      clearPointers(current); //current->left = nullptr, current->right = nullptr, "this finished?"
     }
     else if(isLeft)
     {
       parent->left = current->right;
       clearPointers(current);
-      delete current;
     }
     else //right child
     {
       parent->right = current->right;
       clearPointers(current);
-      delete current;
     }
   }
 
   else //it has two children, gonna go one right then all the way left
   {
-    TreeNode<T> *succ = getSuccessor(current);
-
+    T *succ = getSuccessor(current);
     if(current == root)
     {
       root = succ;
@@ -257,17 +248,16 @@ bool BST<T>::deleteNode(int k)
 
     succ->left = current->left;
     clearPointers(current);
-    delete current;
   }
   return true;
 }
 
 template<typename T>
-TreeNode<T>* BST<T>::getSuccessor(TreeNode<T> *d) //d is the node we r deleting
+T* BST<T>::getSuccessor(T *d) //d is the node we r deleting
 {
-  TreeNode<T> *sp = d; //successor parent
-  TreeNode<T> *succ = d;
-  TreeNode<T> *current = d->right;
+  T *sp = d; //successor parent
+  T *succ = d;
+  T *current = d->right;
 
   while(current != nullptr)
   {
@@ -286,7 +276,7 @@ TreeNode<T>* BST<T>::getSuccessor(TreeNode<T> *d) //d is the node we r deleting
 }
 
 template<typename T>
-void BST<T>::clearPointers(TreeNode<T> *d)
+void BST<T>::clearPointers(T *d)
 {
   d->left = nullptr;
   d->right = nullptr;

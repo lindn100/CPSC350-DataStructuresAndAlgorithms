@@ -30,3 +30,28 @@ string Faculty::getDepartment()
 {
   return department;
 }
+
+void Faculty::printAdvisees()
+{
+  adviseeID.printList();
+}
+
+void Faculty::addAdvisee(int ID)
+{
+  adviseeID.insertFront(ID);
+}
+
+int Faculty::removeAdvisee(int ID)
+{
+  return adviseeID.removeID(ID);
+}
+
+int Faculty::getAdviseeSize()
+{
+  return adviseeID.getSize();
+}
+
+bool Faculty::containsAdvisee(int ID)
+{
+  return adviseeID.contains(ID);
+}

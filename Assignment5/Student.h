@@ -18,6 +18,14 @@ public:
   void setAdvisorID(int);
   int getAdvisorID();
 
+  int key;
+  string data;
+  Student *left;
+  Student *right;
+  void operator=(Student&);
+  string displayInfo();
+
+
 private:
   string major;
   double GPA;

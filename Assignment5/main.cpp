@@ -1,25 +1,25 @@
 #include <iostream>
 #include "BST.h"
-#include "TreeNode.h"
 #include "Student.h"
+#include "Faculty.h"
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-  /*
-  BST<int> myTree;
-  TreeNode<int> *mine =  new TreeNode<int>(10);
-  myTree.insert(mine);
-  mine = new TreeNode<int>(5);
-  myTree.insert(mine);
-  mine = new TreeNode<int>(15);
-  myTree.insert(mine);
-  mine = new TreeNode<int>(12);
-  myTree.insert(mine);
-  mine = new TreeNode<int>(17);
-  myTree.insert(mine);
-  myTree.printTree();
-  if(!myTree.contains(7))
+
+  BST<Student> studentTree;
+
+  Student ryan(200, "ryan2", "senior", "cs", 4.0, 69);
+  studentTree.insert(ryan);
+  Student lol(100, "ryan1", "senior", "cs", 1.0, 420);
+  studentTree.insert(lol);
+  Student matt(500, "matt", "sophmore", "cs", 3.0, 12);
+  studentTree.insert(matt);
+  Student rene(1, "rene", "prof", "cs", 4.0, 1);
+  studentTree.insert(rene);
+  studentTree.deleteNode(100);
+  studentTree.printTree();
+/*  if(!myTree.contains(7))
   {
     cout << "nice" << endl;
   }
@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
   }
   myTree.deleteNode(10);
   myTree.printTree();
-  */
 
   Student ryan(100, "ryan", "senior", "cs", 4.0, 69);
   Student tiff(200, "tiff", "senior", "bio", 4.0, 69);
@@ -41,6 +40,11 @@ int main(int argc, char* argv[])
   {
     cout << "AWLKEJADSF" << endl;
   }
+
+  Faculty rene(1000, "rene", "Prof", "cs");
+  rene.addAdvisee(ryan.getID());
+  //print advisees method is gonna have to for each node in list, search them in the Student BST and print all their info.
+  rene.printAdvisees();*/
 
   return 0;
 }
