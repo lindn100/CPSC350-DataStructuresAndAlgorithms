@@ -11,13 +11,14 @@ public:
   BST();
   ~BST();
 
-  void insert(T node);
+  void insert(T *node);
   bool contains(int value);
   bool deleteNode(int value);
   bool isEmpty();
 
   void printTree();
   void recPrint(T *node); //in order Traversal
+  void printNode(int key);
   T* getSuccessor(T *d);
   void clearPointers(T *d);
 private:
@@ -44,6 +45,7 @@ template<typename T>
 void BST<T>::printTree()
 {
   recPrint(root);
+  cout << endl;
 }
 
 template<typename T>
@@ -62,19 +64,19 @@ void BST<T>::recPrint(T *node) //inorder traversal
   else
   {
     recPrint(node->left);
-    cout << node->key << endl;
+    node->displayInfo();
     recPrint(node->right);
   }
 }
 
 template<typename T>
-void BST<T>::insert(T node)
+void BST<T>::insert(T *node)
 {
-  int value = node.key;
+  int value = node->key;
   //check for duplicates ifcontains(value) break
   if(isEmpty())
   {
-    root = &node;
+    root = node;
   }
   else //not empty tree
   {
@@ -88,7 +90,7 @@ void BST<T>::insert(T node)
         current = current->left;
         if(current==nullptr)
         {
-          parent->left = &node;
+          parent->left = node;
           break;
         }
       }
@@ -97,7 +99,7 @@ void BST<T>::insert(T node)
         current = current->right;
         if(current == nullptr)
         {
-          parent->right =  &node;
+          parent->right =  node;
           break;
         }
       }
@@ -280,6 +282,32 @@ void BST<T>::clearPointers(T *d)
 {
   d->left = nullptr;
   d->right = nullptr;
+}
+
+template<typename T>
+void BST<T>::printNode(int key)
+{
+  if(!contains(key))
+  {
+    cout << "No entry found with entered ID #." << endl;
+  }
+
+  T *current = root;
+
+  while(current->key != key)
+  {
+    if(key < current->key)
+    {
+      current = current->left;
+    }
+    else
+    {
+      current = current->right;
+    }
+  }
+  //found the node
+
+  current->displayInfo();
 }
 
 #endif

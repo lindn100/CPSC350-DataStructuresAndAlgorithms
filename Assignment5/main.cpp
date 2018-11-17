@@ -10,15 +10,30 @@ int main(int argc, char* argv[])
   BST<Student> studentTree;
 
   Student ryan(200, "ryan2", "senior", "cs", 4.0, 69);
-  studentTree.insert(ryan);
+  Student *ptr = &ryan;
+  studentTree.insert(ptr);
   Student lol(100, "ryan1", "senior", "cs", 1.0, 420);
-  studentTree.insert(lol);
+  ptr = &lol;
+  studentTree.insert(ptr);
   Student matt(500, "matt", "sophmore", "cs", 3.0, 12);
-  studentTree.insert(matt);
-  Student rene(1, "rene", "prof", "cs", 4.0, 1);
-  studentTree.insert(rene);
+  ptr = &matt;
+  studentTree.insert(ptr);
+  Student jadyn(1, "jadyn", "prof", "cs", 4.0, 1);
+  ptr = &jadyn;
+  studentTree.insert(ptr);
   studentTree.deleteNode(100);
-  studentTree.printTree();
+  studentTree.printNode(200);
+
+
+  BST<Faculty> facultyTree;
+
+  Faculty rene(1001, "rene", "prof", "cs");
+  Faculty *ptr2 = &rene;
+  rene.addAdvisee(ryan.getID());
+  facultyTree.insert(ptr2);
+
+  facultyTree.printTree();
+  //studentTree.printTree();
 /*  if(!myTree.contains(7))
   {
     cout << "nice" << endl;

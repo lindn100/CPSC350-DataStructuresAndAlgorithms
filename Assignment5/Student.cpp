@@ -16,7 +16,6 @@ Student::Student()
   key = getID();
   left = nullptr;
   right = nullptr;
-  data = this->displayInfo();
 }
 
 Student::Student(int ID, string name, string level, string major, double GPA, int advisorID)
@@ -30,7 +29,6 @@ Student::Student(int ID, string name, string level, string major, double GPA, in
   key = getID();
   left = nullptr;
   right = nullptr;
-  data = this->displayInfo();
 }
 
 Student::~Student()
@@ -79,15 +77,20 @@ void Student::operator=(Student& s)
   key = s.key;
   left = s.left;
   right = s.right;
-  data = s.displayInfo();
 }
 
-string Student::displayInfo()
+void Student::displayInfo() //couting in one line gives me a bunch of errors, so doing this way for now
 {
-  string t1 = to_string(getID());
-  string t2 = to_string(getGPA());
-  string t3 = to_string(getAdvisorID());
-
-  //sstm <<  "ID: " << getID() << " Name: " << getName() << " Level: " << getLevel() << " Major: " << getMajor() << " GPA: " << getGPA() << " AdvisorID: " << getAdvisorID();
-  return ("ID: " + t1 + " Name: " + getName() + " Level " + getLevel() + " Major: " + getMajor() + " GPA: " + t2 + " AdvisorID: " + t3);
+  cout << "ID: ";
+  cout << getID();
+  cout << " Name: ";
+  cout << getName();
+  cout << " Level: ";
+  cout << getLevel();
+  cout << " Major: ";
+  cout << getMajor();
+  cout << " GPA: ";
+  cout << getGPA();
+  cout << " AdvisorID: ";
+  cout << getAdvisorID() << endl;
 }

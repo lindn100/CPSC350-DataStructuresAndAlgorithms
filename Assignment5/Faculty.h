@@ -20,10 +20,16 @@ public:
   int removeAdvisee(int);
   int getAdviseeSize();
   bool containsAdvisee(int);
+  int sizeOfAdvisees();
+
+  int key;
+  Faculty *left;
+  Faculty *right;
+  void operator=(Faculty&);
+  void displayInfo();
 private:
   NaiveList<int> adviseeID;
   string department;
-  //singlelinkedlist<int> *myList
 
 };
 

@@ -23,7 +23,7 @@ public:
   Student *left;
   Student *right;
   void operator=(Student&);
-  string displayInfo();
+  void displayInfo();
 
 
 private:
