@@ -22,6 +22,8 @@ public:
   bool containsAdvisee(int);
   int sizeOfAdvisees();
 
+  int printAdviseeID(int pos); //prints the student advisee's ID # given position in the SLL
+
   int key;
   Faculty *left;
   Faculty *right;

@@ -15,6 +15,7 @@ public:
   bool contains(int value);
   bool deleteNode(int value);
   bool isEmpty();
+  T* find(int value);
 
   void printTree();
   void recPrint(T *node); //in order Traversal
@@ -136,6 +137,24 @@ bool BST<T>::contains(int value)
     }
     return true;
   }
+}
+
+template<typename T>
+T* BST<T>::find(int value) //run contains first to ensure that a node will always be found
+{
+  T *current = root;
+  while(current->key != value)
+  {
+    if(value < current->key)
+    {
+      current = current->left;
+    }
+    else
+    {
+      current = current->right;
+    }
+  }
+  return current;
 }
 
 template<typename T>
@@ -290,8 +309,9 @@ void BST<T>::printNode(int key)
   if(!contains(key))
   {
     cout << "No entry found with entered ID #." << endl;
-  }
 
+  }
+  else{
   T *current = root;
 
   while(current->key != key)
@@ -308,6 +328,7 @@ void BST<T>::printNode(int key)
   //found the node
 
   current->displayInfo();
+}
 }
 
 #endif

@@ -1,13 +1,11 @@
 #include <iostream>
-#include "BST.h"
-#include "Student.h"
-#include "Faculty.h"
+#include "DB.h"
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-
-  BST<Student> studentTree;
+  DB myDB;
+  /*BST<Student> studentTree;
 
   Student ryan(200, "ryan2", "senior", "cs", 4.0, 69);
   Student *ptr = &ryan;
@@ -22,7 +20,7 @@ int main(int argc, char* argv[])
   ptr = &jadyn;
   studentTree.insert(ptr);
   studentTree.deleteNode(100);
-  studentTree.printNode(200);
+  studentTree.printTree();
 
 
   BST<Faculty> facultyTree;
@@ -32,7 +30,7 @@ int main(int argc, char* argv[])
   rene.addAdvisee(ryan.getID());
   facultyTree.insert(ptr2);
 
-  facultyTree.printTree();
+  facultyTree.printTree();*/
   //studentTree.printTree();
 /*  if(!myTree.contains(7))
   {

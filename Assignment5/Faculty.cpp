@@ -98,4 +98,10 @@ void Faculty::displayInfo() //couting in one line gives me a bunch of errors, so
   cout << getDepartment();
   cout << " List of Advisees: ";
   adviseeID.printList();
+  cout << endl;
+}
+
+int Faculty::printAdviseeID(int pos)
+{
+  return adviseeID.nodeAtPos(pos);
 }

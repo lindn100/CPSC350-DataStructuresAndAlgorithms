@@ -21,6 +21,7 @@ public:
   int find(T value);
   bool contains(T value);
   T removeID(T value);
+  T nodeAtPos(int pos); //return a node T at the given position
 
   void printList();
   unsigned int getSize();
@@ -115,6 +116,19 @@ int NaiveList<T>::find(T value)
 }
 
 template<typename T>
+T NaiveList<T>::nodeAtPos(int pos)
+{
+  int current = 0;
+  ListNode<T> *curr = front;
+  while(current != pos)
+  {
+    curr = curr->next;
+  }
+
+  return curr->data;
+}
+
+template<typename T>
 bool NaiveList<T>::contains(T value)
 {
   int x = find(value);
@@ -147,6 +161,17 @@ T NaiveList<T>::removeID(T value)
       return -1; //returning -1 if not found
     }
 
+    if(curr == front)
+    {
+      front = curr->next;
+      curr->next = NULL;
+      T d = curr->data;
+      size--;
+      delete curr;
+
+      return d;
+    }
+    else{
     //found the position, lets proceed to delete
 
     prev->next = curr->next;
@@ -156,6 +181,7 @@ T NaiveList<T>::removeID(T value)
     delete curr;
 
     return d;
+  }
 }
 
 template<typename T>
