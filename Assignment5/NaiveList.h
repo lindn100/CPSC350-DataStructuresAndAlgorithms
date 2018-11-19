@@ -123,8 +123,8 @@ T NaiveList<T>::nodeAtPos(int pos)
   while(current != pos)
   {
     curr = curr->next;
+    ++current;
   }
-
   return curr->data;
 }
 

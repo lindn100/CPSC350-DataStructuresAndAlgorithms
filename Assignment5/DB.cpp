@@ -1,6 +1,9 @@
 #include "DB.h"
 #include <iostream>
 #include <ctime> //using this for srand, REF: https://stackoverflow.com/questions/7748071/same-randome-numbers-every-time-i-run-the-program
+#include <fstream>
+#include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -8,13 +11,50 @@ DB::DB()
 {
   numberOfFaculty = 0;
   numberOfStudents = 0;
-  for(int i = 0; i < 9000; ++i)
+  ifstream readFileFaculty("facultyTable.txt");
+  ifstream readFileStudent("studentTaable.txt");
+/*  string str;
+  while(getline(readFileFaculty, str))
   {
-    takenStudentID[i] = false;
-    takenFacultyID[i] = false;
-    facultyID[i] = 0;
-    stuentID[i] = 0;
-  }
+    istringstream iss(str);
+    string token;
+    string list[4];
+    int i = 1;
+    int b = 0;
+    while(getline(iss, token, ','))
+    {
+      cout << token << endl;
+      switch(i)
+      {
+        case 1:
+        cout << "here" << endl;
+          b = atoi(token.c_str());
+          cout << "no here" << endl;
+          facultyIDs.insertFront(b);
+          cout << "instead here" << endl;
+          tempFaculty->setID(b);
+          cout << "maybe this?" << endl;
+          break;
+        case 2:
+          tempFaculty->setName(token);
+          break;
+        case 3:
+          tempFaculty->setLevel(token);
+          break;
+        case 4:
+          tempFaculty->setDepartment(token);
+          break;
+      }
+      ++i;
+    }
+
+    //facultyIDs.insertFront(list[0]);
+    ++numberOfFaculty;
+
+    //tempFaculty = new Faculty(list[0], list[1], list[2], list[3]);
+    masterFaculty.insert(tempFaculty);
+
+  }*/
   startProgram();
 }
 
@@ -25,11 +65,11 @@ DB::~DB()
 
 void DB::startProgram()
 {
-  bool exit = false;
+  bool exitProgram = false;
 
   //read in file stuff to add to trees
 
-while(!exit){
+while(!exitProgram){
   cout << "Please select an action from the below menu by typing in it's corresponding number." << endl;
   cout << "1. Print all students and their information (sorted by ascending id #)." << endl;
   cout << "2. Print all faculty and their information (sorted by ascending id#)." << endl;
@@ -49,6 +89,8 @@ while(!exit){
   int x;
   cin >> x;
   int temp;
+  int temp2;
+  int temp3;
 
   switch(x)
   {
@@ -113,18 +155,15 @@ while(!exit){
       }
       else
       {
-        /*takenStudentID[temp-1000] = false; NEED TO REPLACE WITH LINKED LIST
-        for(int i = 0; i < numberOfStudents; ++i)
-        {
-          if(studentID[i] == temp)
-          {
-            studentID
-          }
-        }*/
+        //remove student ID in LL and remove the node in the tree
+        studentIDs.removeID(temp);
         masterStudent.deleteNode(temp);
+        --numberOfStudents;
+
+        //go through each faculty, if they are in the advisee list, remove them
         for(int i = 0; i < numberOfFaculty; ++i)
         {
-          Faculty *ptr3 = masterFaculty.find(facultyID[i]);
+          Faculty *ptr3 = masterFaculty.find(facultyIDs.nodeAtPos(i));
           if(ptr3->containsAdvisee(temp))
           {
             ptr3->removeAdvisee(temp);
@@ -138,46 +177,89 @@ while(!exit){
     case 10:
     cout << "Enter the faculty's ID: ";
     cin >> temp;
+    cout << temp << endl;
     if(!masterFaculty.contains(temp))
     {
       cout << "No entry found with entered ID #." << endl;
     }
     else
     {
-      /*takenFacultyID[temp-10000] = false; REPLACE WITH LL
-      for(int i = 0; i < numberOfFaculty; ++i)
-      {
-        if(facultyID[i] == temp)
-        {
-          facultyID = 0;
-          break;
-        }
-      }*/
+      facultyIDs.removeID(temp);
       --numberOfFaculty;
       masterFaculty.deleteNode(temp);
+      if(numberOfFaculty == 0)
+      {
+        cout << "No more faculty at the school? Guess school is cancelled, thus the application is canceled." << endl;
+        exit(0);
+      }
       for(int i = 0; i < numberOfStudents; ++i)
       {
-        Student *ptr4 = masterStudent.find(studentID[i]);
-        if(ptr4->getAdvisorID == temp)
+        Student *ptr4 = masterStudent.find(studentIDs.nodeAtPos(i));
+        if(ptr4->getAdvisorID() == temp)
         {
           srand(time(NULL));
           int facultyPos = 0;
           facultyPos = (rand() % numberOfFaculty); //0-number of faculty for random index for faculty assignment.
-          ptr4->setAdvisorID(facultyID[facultyPos]);
+          ptr4->setAdvisorID(facultyIDs.nodeAtPos(facultyPos)); //set student's advisor ID to the new ID
+          masterFaculty.find(facultyIDs.nodeAtPos(facultyPos))->addAdvisee(ptr4->getID()); //set faculty's ID to the student's ID
         }
       }
     }
       break;
     case 11:
+      cout << "Enter the student's ID: ";
+      cin >> temp;
+      cout << "Enter the new faculty's ID: ";
+      cin >> temp2;
+
+      if(!masterStudent.contains(temp) || !masterFaculty.contains(temp2))
+      {
+        cout << "No entry found with entered ID #." << endl;
+      }
+      else
+      {
+      int removeID = masterStudent.find(temp)->getAdvisorID();
+      masterStudent.find(temp)->setAdvisorID(temp2); //change student's advisor ID
+      masterFaculty.find(removeID)->removeAdvisee(temp); //change old advisor ID to remove the student's ID
+      masterFaculty.find(temp2)->addAdvisee(temp); //change the new adivsor ID to include student's ID
+      }
       break;
     case 12:
+      cout << "Enter the student's ID: ";
+      cin >> temp;
+      cout << "Enter the new faculty's ID: ";
+      cin >> temp2;
+
+      if(!masterStudent.contains(temp) || !masterFaculty.contains(temp2))
+      {
+        cout << "No entry found with entered ID #." << endl;
+      }
+      else
+      {
+        if(numberOfFaculty == 1)
+        {
+          cout << "Only 1 faculty. Sorry, no new advisor for you." << endl;
+        }
+        else{
+        masterFaculty.find(temp2)->removeAdvisee(temp); //remove advisee for advisor list
+        temp3 = (rand() % numberOfFaculty); //0-number of faculty for random index for faculty assignment. facultyID needs to be assigned randomly in the LL somehow
+        while(facultyIDs.nodeAtPos(temp3) == temp2)
+        {
+          temp3 = (rand() & numberOfFaculty); //if the random roll picks the same advisor, roll again until it isnt.
+        }
+
+        //now have a new advisor
+        masterStudent.find(temp)->setAdvisorID(facultyIDs.nodeAtPos(temp3)); //set student's new advisor to his advisorID field
+        masterFaculty.find(facultyIDs.nodeAtPos(temp3))->addAdvisee(temp); //set studnet to new faculty's advisee list
+        }
+      }
       break;
     case 13:
       break;
     case 14:
       //save file off
       cout << "Exiting Program." << endl;
-      exit = true;
+      exitProgram = true;
       break;
     default:
       cout << "Invalid entry. Try again" << endl;
@@ -208,17 +290,16 @@ void DB::addStudent()
   while(true) //ensuring that the studentID is not taken
   {
     tempID = (rand() % 9000) + 1000; //STUDENT IDS: 1000-9999, REF: https://stackoverflow.com/questions/4067135/c-generating-a-4-digit-random-number
-    if(takenStudentID[tempID - 1000] == false) //IF !LL.CONTAINS(TEMPID) BREAK, ELSE CONTINUE TO LOOP
+    if(!studentIDs.contains(tempID)) //IF !LL.CONTAINS(TEMPID) BREAK, ELSE CONTINUE TO LOOP
     {
-      takenStudentID[tempID - 1000] = true;
       break;
     }
   }
 
-  /*facultyPos = (rand() % numberOfFaculty); //0-number of faculty for random index for faculty assignment. facultyID needs to be assigned randomly in the LL somehow
-  tempFacultyID = facultyID[facultyPos];*/
+  facultyPos = (rand() % numberOfFaculty); //0-number of faculty for random index for faculty assignment. facultyID needs to be assigned randomly in the LL somehow
+  tempFacultyID = facultyIDs.nodeAtPos(facultyPos);
 
-  //StudentID[numberOfStudents] = tempID;
+  studentIDs.insertFront(tempID);
   ++numberOfStudents;
 
   //need to assign faculty ID
@@ -226,7 +307,7 @@ void DB::addStudent()
   tempStudent = new Student(tempID, tempName, tempLevel, tempMajor, tempGPA, tempFacultyID);
 
   masterStudent.insert(tempStudent);
-  cout << "The student's ID is " << tempID << "and their advisor's ID is " << tempFacultyID << endl;
+  cout << "The student's ID is " << tempID << " and their advisor's ID is " << tempFacultyID << endl;
 
 //update the facult's advisee list
   masterFaculty.find(tempFacultyID)->addAdvisee(tempID);
@@ -251,14 +332,13 @@ void DB::addFaculty()
   while(true) //ensuring that the studentID is not taken
   {
     tempID = (rand() % 9000) + 10000; //FACULTY IDS: 10000-19999, REF: https://stackoverflow.com/questions/4067135/c-generating-a-4-digit-random-number
-    if(takenFacultyID[tempID - 10000] == false) //CHANGE TO LL CONTAINS
+    if(!facultyIDs.contains(tempID)) //break if not in the list
     {
-      takenFacultyID[tempID - 10000] = true;
       break;
     }
   }
 
-  facultyID[numberOfFaculty] = tempID;
+  facultyIDs.insertFront(tempID);
   ++numberOfFaculty;
 
   tempFaculty = new Faculty(tempID, tempName, tempLevel, tempDept);

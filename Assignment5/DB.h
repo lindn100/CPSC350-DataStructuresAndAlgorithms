@@ -4,6 +4,7 @@
 #include "BST.h"
 #include "Student.h"
 #include "Faculty.h"
+#include "NaiveList.h"
 using namespace std;
 
 class DB
@@ -20,11 +21,8 @@ private:
   BST<Faculty> masterFaculty;
   Student *tempStudent;
   Faculty *tempFaculty;
-  //HAVE TO MAKE THESE ARRAYS INTO LINKED LISTS TO FUNCTION CORRECLTY.
-  bool takenStudentID[9000];
-  bool takenFacultyID[9000];
-  int facultyID[9000];
-  int studentID[9000];
+  NaiveList<int> studentIDs;
+  NaiveList<int> facultyIDs;
   int numberOfStudents;
   int numberOfFaculty;
 };
