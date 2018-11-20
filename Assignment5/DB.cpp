@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,8 +12,53 @@ DB::DB()
 {
   numberOfFaculty = 0;
   numberOfStudents = 0;
-  ifstream readFileFaculty("facultyTable.txt");
-  ifstream readFileStudent("studentTaable.txt");
+  ifstream readFileFaculty;
+  //ifstream readFileStudent("studentTable.txt");
+
+  int tempID;
+  int nameLength;
+  int levelLength;
+  int deptLength;
+  string tempString;
+  string tempName;
+  string tempLevel;
+  string tempDept;
+  int tempstart;
+  int tempend;
+  int digitsInName;
+  int digitsInLevel;
+  int digitsInDept;
+
+  readFileFaculty.open("facultyTable.csv");
+  string line;
+
+  while(getline(readFileFaculty, line))
+  {
+    istringstream ss(line);
+    getline(ss, tempString);
+    tempString.erase(remove(tempString.begin(), tempString.end(), ','), tempString.end());
+
+    digitsInName = stoi(tempString.substr(0, 1));
+    digitsInLevel = stoi(tempString.substr(1, 1));
+    digitsInDept = stoi(tempString.substr(2, 1));
+
+    nameLength = stoi(tempString.substr(3, digitsInName));
+    levelLength = stoi(tempString.substr(3 + digitsInName, digitsInLevel));
+    deptLength = stoi(tempString.substr(3 + digitsInName + digitsInLevel, digitsInDept));
+
+
+    tempID = stoi(tempString.substr(3+digitsInName+digitsInLevel+digitsInDept, 5));
+    tempName = tempString.substr(13, nameLength);
+    tempLevel = tempString.substr(13 +nameLength, levelLength);
+    tempDept = tempString.substr(13 + nameLength + levelLength, deptLength);
+
+    facultyIDs.insertFront(tempID);
+    ++numberOfFaculty;
+
+    tempFaculty = new Faculty(tempID, tempName, tempLevel, tempDept);
+    masterFaculty.insert(tempFaculty);
+  }
+
 /*  string str;
   while(getline(readFileFaculty, str))
   {
@@ -67,7 +113,6 @@ void DB::startProgram()
 {
   bool exitProgram = false;
 
-  //read in file stuff to add to trees
 
 while(!exitProgram){
   cout << "Please select an action from the below menu by typing in it's corresponding number." << endl;
