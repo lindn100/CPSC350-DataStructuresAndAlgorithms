@@ -13,30 +13,37 @@ DB::DB()
   numberOfFaculty = 0;
   numberOfStudents = 0;
   ifstream readFileFaculty;
-  //ifstream readFileStudent("studentTable.txt");
+  ifstream readFileStudent;
 
-  int tempID;
   int nameLength;
   int levelLength;
   int deptLength;
+  int GPALength;
+
   string tempString;
+
+  int tempID;
   string tempName;
   string tempLevel;
   string tempDept;
-  int tempstart;
-  int tempend;
+  string tempMajor;
+  double tempGPA;
+  int tempAdvisorID;
+
   int digitsInName;
   int digitsInLevel;
   int digitsInDept;
+  int digitsInMajor;
+  int digitsInGPA;
 
   readFileFaculty.open("facultyTable.csv");
   string line;
 
   while(getline(readFileFaculty, line))
   {
-    istringstream ss(line);
+    istringstream ss(line); //https://stackoverflow.com/questions/1894886/parsing-a-comma-delimited-stdstring
     getline(ss, tempString);
-    tempString.erase(remove(tempString.begin(), tempString.end(), ','), tempString.end());
+    tempString.erase(remove(tempString.begin(), tempString.end(), ','), tempString.end()); https://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
 
     digitsInName = stoi(tempString.substr(0, 1));
     digitsInLevel = stoi(tempString.substr(1, 1));
@@ -58,49 +65,42 @@ DB::DB()
     tempFaculty = new Faculty(tempID, tempName, tempLevel, tempDept);
     masterFaculty.insert(tempFaculty);
   }
+  readFileFaculty.close();
 
-/*  string str;
-  while(getline(readFileFaculty, str))
+  readFileStudent.open("studentTable.csv");
+  while(getline(readFileStudent, line))
   {
-    istringstream iss(str);
-    string token;
-    string list[4];
-    int i = 1;
-    int b = 0;
-    while(getline(iss, token, ','))
-    {
-      cout << token << endl;
-      switch(i)
-      {
-        case 1:
-        cout << "here" << endl;
-          b = atoi(token.c_str());
-          cout << "no here" << endl;
-          facultyIDs.insertFront(b);
-          cout << "instead here" << endl;
-          tempFaculty->setID(b);
-          cout << "maybe this?" << endl;
-          break;
-        case 2:
-          tempFaculty->setName(token);
-          break;
-        case 3:
-          tempFaculty->setLevel(token);
-          break;
-        case 4:
-          tempFaculty->setDepartment(token);
-          break;
-      }
-      ++i;
-    }
+    istringstream ss(line);
+    getline(ss, tempString);
+    tempString.erase(remove(tempString.begin(), tempString.end(), ','), tempString.end());
 
-    //facultyIDs.insertFront(list[0]);
-    ++numberOfFaculty;
+    digitsInName = stoi(tempString.substr(0, 1));
+    digitsInLevel = stoi(tempString.substr(1, 1));
+    digitsInMajor = stoi(tempString.substr(2, 1));
+    digitsInGPA = stoi(tempString.substr(3, 1));
 
-    //tempFaculty = new Faculty(list[0], list[1], list[2], list[3]);
-    masterFaculty.insert(tempFaculty);
+    nameLength = stoi(tempString.substr(4, digitsInName));
+    levelLength = stoi(tempString.substr(4 + digitsInName, digitsInLevel));
+    deptLength = stoi(tempString.substr(4 + digitsInName + digitsInLevel, digitsInMajor));
+    GPALength = stoi(tempString.substr(4 + digitsInName + digitsInLevel + digitsInMajor, digitsInGPA));
 
-  }*/
+    tempID = stoi(tempString.substr(4+digitsInName+digitsInLevel+digitsInMajor+digitsInGPA, 4));
+    tempName = tempString.substr(8+digitsInName+digitsInLevel+digitsInMajor+digitsInGPA, nameLength);
+    tempLevel = tempString.substr(8+digitsInName+digitsInLevel+digitsInMajor+digitsInGPA+nameLength, levelLength);
+    tempMajor = tempString.substr(8 +digitsInName+digitsInLevel+digitsInMajor+digitsInGPA+nameLength + levelLength, deptLength);
+    tempGPA = stod(tempString.substr(8 +digitsInName+digitsInLevel+digitsInMajor+digitsInGPA+nameLength + levelLength+ deptLength, GPALength));
+    tempAdvisorID = stoi(tempString.substr(8 +digitsInName+digitsInLevel+digitsInMajor+digitsInGPA+nameLength + levelLength+ deptLength+ GPALength, 5));
+//http://www.cplusplus.com/reference/string/stod/
+    studentIDs.insertFront(tempID);
+    ++numberOfStudents;
+
+    tempStudent = new Student(tempID, tempName, tempLevel, tempMajor, tempGPA, tempAdvisorID);
+    masterFaculty.find(tempAdvisorID)->addAdvisee(tempID);
+    masterStudent.insert(tempStudent);
+  }
+
+  readFileStudent.close();
+
   startProgram();
 }
 
