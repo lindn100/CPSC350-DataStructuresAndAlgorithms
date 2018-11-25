@@ -22,6 +22,8 @@ public:
   void printNode(int key);
   T* getSuccessor(T *d);
   void clearPointers(T *d);
+
+  void operator=(BST&);
 private:
   T *root;
 };
@@ -330,5 +332,6 @@ void BST<T>::printNode(int key)
   current->displayInfo();
 }
 }
+
 
 #endif

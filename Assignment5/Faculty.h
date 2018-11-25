@@ -18,6 +18,7 @@ public:
   void printAdvisees();
   void addAdvisee(int);
   int removeAdvisee(int);
+  int removeAdviseeFront();
   int getAdviseeSize();
   bool containsAdvisee(int);
   int sizeOfAdvisees();

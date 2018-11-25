@@ -55,6 +55,11 @@ int Faculty::removeAdvisee(int ID)
   return adviseeID.removeID(ID);
 }
 
+int Faculty::removeAdviseeFront()
+{
+  return adviseeID.removeFront();
+}
+
 int Faculty::getAdviseeSize()
 {
   return adviseeID.getSize();

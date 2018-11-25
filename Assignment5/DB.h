@@ -5,6 +5,7 @@
 #include "Student.h"
 #include "Faculty.h"
 #include "NaiveList.h"
+#include "GenStack.h"
 using namespace std;
 
 class DB
@@ -21,6 +22,7 @@ private:
   BST<Faculty> masterFaculty;
   Student *tempStudent;
   Faculty *tempFaculty;
+  GenStack<string> rollBack;
   NaiveList<int> studentIDs;
   NaiveList<int> facultyIDs;
   int numberOfStudents;
