@@ -41,6 +41,7 @@ DB::DB()
   readFileFaculty.open("facultyTable.csv");
   string line;
 
+//i've made my own storage of students/faculty by using csv's and converting them to strings
   while(getline(readFileFaculty, line))
   {
     istringstream ss(line); //https://stackoverflow.com/questions/1894886/parsing-a-comma-delimited-stdstring
@@ -69,6 +70,8 @@ DB::DB()
     masterFaculty.insert(tempFaculty);
   }
   readFileFaculty.close();
+
+  //faculty is in masterFaculty, need to load in students now
 
   readFileStudent.open("studentTable.csv");
   while(getline(readFileStudent, line))
@@ -285,6 +288,7 @@ while(!exitProgram){
           ++digitsInGPA;
         }
 
+//this is for rollback
         string addToStack = "3" + to_string(digitsOfName) + to_string(digitsOfLevel) + to_string(digitsInMajor) + to_string(digitsInGPA) + to_string(sizeOfName) + to_string(sizeOfLevel) + to_string(sizeOfMajor) + to_string(sizeOfGPA) + to_string(temp) + workingName + workingLevel + workingMajor + workingGPA + workingAdvisorID;
         rollBack.push(addToStack);
 
