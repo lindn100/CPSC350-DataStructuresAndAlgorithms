@@ -5,8 +5,6 @@
 #include <chrono>
 #include <bits/stdc++.h> //used for bogosort: REF: https://www.geeksforgeeks.org/bogosort-permutation-sort/
 #include <stdlib.h> //for rand
-/*#include<stdio.h>
-#include<time.h> //using for time analysis: REF: https://stackoverflow.com/questions/10192903/time-in-milliseconds*/
 
 using namespace std;
 using namespace std::chrono;
@@ -124,7 +122,7 @@ int AlgoAnalysis::pivot(double myArr[], int start, int end)
 
 void AlgoAnalysis::quickSort(double myArr[], int start, int end) //low is first index, high is last index
 {
-  //REF: Visual help: https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/visualize/
+    //REF: Visual help: https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/visualize/
   //REF: http://www.cplusplus.com/forum/general/102131/
   int p; //the pivot position
 
